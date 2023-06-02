@@ -19,7 +19,14 @@ const addBook = (title, author, pages, read=false) => {
 }
 
 
+const displayLibrary = (arr) => {
+    for (let i = 0; i <= arr.length-1; i++) {
+        console.log(arr[i].bookInfo());
+    }
+}
+
+
+
 addBook('The Hobbit', 'J. R. R. Tolkien', 310)
 addBook('The Lord of the Rings', 'J. R. R. Tolkien', 1178)
-console.log(library[0].bookInfo())
-console.log(library)
+console.log(displayLibrary(library));
