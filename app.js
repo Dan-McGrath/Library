@@ -13,4 +13,13 @@ function Book(title, author, pages, read=false) {
     
 }
 
+const addBook = (title, author, pages, read=false) => {
+    let newBook = new Book(title, author, pages, read);
+    library.unshift(newBook);
+}
 
+
+addBook('The Hobbit', 'J. R. R. Tolkien', 310)
+addBook('The Lord of the Rings', 'J. R. R. Tolkien', 1178)
+console.log(library[0].bookInfo())
+console.log(library)
