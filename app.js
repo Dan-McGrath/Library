@@ -1,4 +1,7 @@
+
+
 let library = [];
+const libraryElement = document.querySelector('.library');
 
 function Book(title, author, pages, read=false) {
     this.title = title
@@ -19,14 +22,22 @@ const addBook = (title, author, pages, read=false) => {
 }
 
 
-const displayLibrary = (arr) => {
-    for (let i = 0; i <= arr.length-1; i++) {
-        console.log(arr[i].bookInfo());
+const displayLibrary = (library) => {
+    const book = document.createElement('div');
+    
+    for (let i = 0; i <= library.length-1; i++) {
+        libraryElement.appendChild(book)
+        let title = book.appendChild(document.createElement('h2'));
+        let author = book.appendChild(document.createElement('p'));
+        let info = book.appendChild(document.createElement('p'));
+        title.textContent = library[i].title;
+        author.textContent = library[i].author;
+        info.textContent = library[i].bookInfo();
     }
 }
 
 
-
 addBook('The Hobbit', 'J. R. R. Tolkien', 310)
 addBook('The Lord of the Rings', 'J. R. R. Tolkien', 1178)
-console.log(displayLibrary(library));
+
+document.body.onload = displayLibrary(library);
