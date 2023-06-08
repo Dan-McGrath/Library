@@ -3,13 +3,15 @@
 let library = [];
 const libraryElement = document.querySelector('.library');
 
-function Book(title, author, pages, read=false) {
+class Book{
+    constructor(title, author, pages, read=false) {
     this.title = title
     this.author = author
     this.pages = pages
     this.read = read
+    }
 
-    this.bookInfo = () => {
+    bookInfo() {
         let hasRead = (this.read ? 'have' : 'have not')
         return `${this.title} by ${this.author} has ${this.pages} pages. You ${hasRead} read this book.`
     }
@@ -37,21 +39,41 @@ const displayLibrary = (library) => {
 }
 
 // Add Book
-const addBookBttn = document.querySelector('.btn');
+const addBookBtn = document.querySelector('.btn');
 const bookForm = document.querySelector('.book-form');
 
 const formPopUp = () => {
-    if (addBookBttn.dataset.active === 'false') {
-        addBookBttn.dataset.active = 'true';
+    if (addBookBtn.dataset.active === 'false') {
+        addBookBtn.dataset.active = 'true';
         bookForm.dataset.active = 'true';
     } else {
-        addBookBttn.dataset.active = 'false';
+        addBookBtn.dataset.active = 'false';
         bookForm.dataset.active = 'false';
     }
    
 }
 
-addBookBttn.addEventListener('click', formPopUp);
+
+//Submit Book
+const submitBtn = document.querySelector('.submit');
+
+const submitBook = (e) => {
+    e.preventDefault(); 
+
+    let title = document.getElementsByName('title');
+    let author = document.getElementsByName('author');
+    let pages = document.getElementsByName('pages');
+    let read = document.getElementsByName('read');
+
+    addBook(title, author, pages, read);
+    displayLibrary(library);
+    console.log(displayLibrary(library))
+
+}
+
+
+addBookBtn.addEventListener('click', formPopUp);
+submitBtn.addEventListener('submit', submitBook);
 
 addBook('The Hobbit', 'J. R. R. Tolkien', 310)
 addBook('The Lord of the Rings', 'J. R. R. Tolkien', 1178)
