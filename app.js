@@ -36,6 +36,22 @@ const displayLibrary = (library) => {
     }
 }
 
+// Add Book
+const addBookBttn = document.querySelector('.btn');
+const bookForm = document.querySelector('.book-form');
+
+const formPopUp = () => {
+    if (addBookBttn.dataset.active === 'false') {
+        addBookBttn.dataset.active = 'true';
+        bookForm.dataset.active = 'true';
+    } else {
+        addBookBttn.dataset.active = 'false';
+        bookForm.dataset.active = 'false';
+    }
+   
+}
+
+addBookBttn.addEventListener('click', formPopUp);
 
 addBook('The Hobbit', 'J. R. R. Tolkien', 310)
 addBook('The Lord of the Rings', 'J. R. R. Tolkien', 1178)
