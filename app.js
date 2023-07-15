@@ -26,7 +26,7 @@ const addBook = (title, author, pages, read=false) => {
 
 const displayLibrary = (library) => {
     const book = document.createElement('div');
-    
+    book.classList.add('books')
     for (let i = 0; i <= library.length-1; i++) {
         libraryElement.appendChild(book)
         let title = book.appendChild(document.createElement('h2'));
@@ -55,25 +55,32 @@ const formPopUp = () => {
 
 
 //Submit Book
-const submitBtn = document.querySelector('.submit');
+const addBookForm = document.getElementById('book-form');
+const submit = document.getElementById('submit')
 
 const submitBook = (e) => {
-    e.preventDefault(); 
+    e.preventDefault();
 
-    let title = document.getElementsByName('title');
-    let author = document.getElementsByName('author');
-    let pages = document.getElementsByName('pages');
-    let read = document.getElementsByName('read');
+    // Get Values
+    let newTitle = document.getElementById('title').value;
+    let newAuthor = document.getElementById('author').value;
+    let newPages = document.getElementById('pages').value;
+    let newRead = document.getElementById('read').value;
 
-    addBook(title, author, pages, read);
+    // Add values to library
+    addBook(newTitle, newAuthor, newPages, newRead);
+    let removeBooks = document.querySelector('.books');
+
+    // show new library
+    removeBooks.remove();
     displayLibrary(library);
-    console.log(displayLibrary(library))
-
+    
+    
 }
 
 
 addBookBtn.addEventListener('click', formPopUp);
-submitBtn.addEventListener('submit', submitBook);
+submit.addEventListener('click', submitBook);
 
 addBook('The Hobbit', 'J. R. R. Tolkien', 310)
 addBook('The Lord of the Rings', 'J. R. R. Tolkien', 1178)

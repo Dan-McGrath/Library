@@ -13,11 +13,11 @@
     <div class="library">
         
     </div>
-    <div class="btn">
-        <button data-active="false">Add Book</button>
+    <div >
+        <button class="btn" data-active="false">Add Book</button>
     </div>
     <div class="book-form" data-active="false">
-        <form action="#">
+        <form action="#" class="add-book-form" id="book-form">
             <label for="title">Book Title</label>
             <input type="text" id="title" name="title">
             <label for="author">Author</label>
@@ -28,6 +28,7 @@
             <input type="radio" name="read" id="read">
             <label for="not-read">Not Read</label>
             <input type="radio" name="read" id="not-read">
+            <input type="button" value="Submit" class="submit" id="submit">
         </form>
     </div>
 </body>
