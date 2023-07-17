@@ -60,20 +60,40 @@ const submit = document.getElementById('submit')
 
 const submitBook = (e) => {
     e.preventDefault();
-
+    let output_box = document.getElementById('output-box')
     // Get Values
     let newTitle = document.getElementById('title').value;
     let newAuthor = document.getElementById('author').value;
     let newPages = document.getElementById('pages').value;
-    let newRead = document.getElementById('read').value;
+    let newRead = document.getElementById('read').checked;
+    
+    
+    // Validations
+    if (newTitle === '' || newAuthor === '' || newPages === '') {
+        let warn = 'Please add book info!';
+        
+        
+        if (output_box.innerHTML === '') {
+            output_box.innerHTML += warn;
+        }
+            
+    } else {
+        // Add values to library
+        addBook(newTitle, newAuthor, newPages, newRead);
+        let removeBooks = document.querySelector('.books');
 
-    // Add values to library
-    addBook(newTitle, newAuthor, newPages, newRead);
-    let removeBooks = document.querySelector('.books');
+        // show new library
+        removeBooks.remove();
+        displayLibrary(library);
 
-    // show new library
-    removeBooks.remove();
-    displayLibrary(library);
+        // Clear info
+        output_box.innerHTML = '';
+        addBookBtn.dataset.active = 'false';
+        bookForm.dataset.active = 'false';
+        addBookForm.reset();
+    }
+
+    
     
     
 }
