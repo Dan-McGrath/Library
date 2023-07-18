@@ -3,6 +3,7 @@
 let library = [];
 const libraryElement = document.querySelector('.library');
 
+
 class Book{
     constructor(title, author, pages, read=false) {
     this.title = title
@@ -23,19 +24,31 @@ const addBook = (title, author, pages, read=false) => {
     library.unshift(newBook);
 }
 
+// refreshes html by clearing divs
+const resetLibrary = () => {
+    while (libraryElement.childNodes[1]) {
+        libraryElement.childNodes[1].remove()
+    }
+}
 
 const displayLibrary = (library) => {
-    const book = document.createElement('div');
-    book.classList.add('books')
-    for (let i = 0; i <= library.length-1; i++) {
-        libraryElement.appendChild(book)
-        let title = book.appendChild(document.createElement('h2'));
-        let author = book.appendChild(document.createElement('p'));
-        let info = book.appendChild(document.createElement('p'));
-        title.textContent = library[i].title;
-        author.textContent = library[i].author;
-        info.textContent = library[i].bookInfo();
+
+    for (let i = 0; i <= library.length -1; i++) {
+        // create book divs
+        const book = document.createElement('div');
+        book.classList.add('books');
+        book.dataset.index = i;
+
+        libraryElement.appendChild(book);
+        // add book info
+        let bookTitle = book.appendChild(document.createElement('h2'));
+        let bookAuthor = book.appendChild(document.createElement('p'));
+        let bookInfo = book.appendChild(document.createElement('p'));
+        bookTitle.textContent = library[i].title;
+        bookAuthor.textContent = library[i].author;
+        bookInfo.textContent = library[i].bookInfo();
     }
+
 }
 
 // Add Book
@@ -80,11 +93,11 @@ const submitBook = (e) => {
     } else {
         // Add values to library
         addBook(newTitle, newAuthor, newPages, newRead);
-        let removeBooks = document.querySelector('.books');
 
+        
         // show new library
-        removeBooks.remove();
-        displayLibrary(library);
+        resetLibrary()
+        displayLibrary(library)
 
         // Clear info
         output_box.innerHTML = '';
