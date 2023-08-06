@@ -37,10 +37,10 @@ const removeEvent = (e) => {
     displayLibrary(library);
 } 
 
-const changeBoolEvent = (e) => {
+const changeRadioInput = (e) => {
     
     if (e.target.checked === true) {
-        let index = e.target.dataset.index
+        let index = e.target.dataset.index;
         let bookAtIndex = library[index];
         if (bookAtIndex.read === true) {
             bookAtIndex.read = false
@@ -48,11 +48,24 @@ const changeBoolEvent = (e) => {
             bookAtIndex.read = true
         }
     }
-
-
     resetLibrary();
     displayLibrary(library);
 
+}
+
+const radioLabelEvent = (e) => {
+    if (e.target.dataset.read === 'false') {
+        let index = e.target.dataset.index;
+        let bookAtIndex = library[index];
+        if (bookAtIndex.read === true) {
+            bookAtIndex.read = false
+        } else {
+            bookAtIndex.read = true
+        }
+    } 
+    resetLibrary();
+    displayLibrary(library);
+    
 }
 
 const displayLibrary = (library) => {
@@ -68,8 +81,11 @@ const displayLibrary = (library) => {
         bookInfoText.classList.add('book-info');
         let bookTitle = bookInfoText.appendChild(document.createElement('h2'));
         let bookAuthor = bookInfoText.appendChild(document.createElement('p'));
+        bookAuthor.classList.add('book-author')
         let bookInfo = bookInfoText.appendChild(document.createElement('p'));
+        bookInfo.classList.add('book-info-text')
         
+
         // create remove btn div
         const removeBtnDiv = document.createElement('div');
         removeBtnDiv.classList.add('btn-remove');
@@ -93,12 +109,16 @@ const displayLibrary = (library) => {
         boolToggleInputRead.setAttribute('name', 'read-' + i);
         boolToggleInputRead.setAttribute('id', 'update-read-' + i);
         boolToggleInputRead.dataset.index = i;
+        boolToggleInputRead.classList.add('input');
+        boolToggleInputRead.addEventListener('click', changeRadioInput);
 
         const boolToggleInputNotRead = document.createElement('input');
         boolToggleInputNotRead.setAttribute('type', 'radio');
         boolToggleInputNotRead.setAttribute('name', 'read-'+ i);
         boolToggleInputNotRead.setAttribute('id', 'update-not-read-' + i);
         boolToggleInputNotRead.dataset.index = i;
+        boolToggleInputNotRead.classList.add('input');
+        boolToggleInputNotRead.addEventListener('click', changeRadioInput);
 
         if (library[i].read === true) {
             boolToggleInputRead.checked = true;
@@ -111,18 +131,35 @@ const displayLibrary = (library) => {
         const boolToogleLabelRead = document.createElement('label');
         boolToogleLabelRead.setAttribute('for', 'update-read-' + i)
         boolToogleLabelRead.textContent = 'Read';
+        boolToogleLabelRead.dataset.index = i;
+        boolToogleLabelRead.classList.add('label');
+        boolToogleLabelRead.addEventListener('click', radioLabelEvent);
+        
+        if (library[i].read === true) {
+            boolToogleLabelRead.dataset.read = 'true';
+        } else {
+            boolToogleLabelRead.dataset.read = 'false';
+        }
 
         const boolToogleLabelNotRead = document.createElement('label');
         boolToogleLabelNotRead.setAttribute('for', 'update-not-read-' + i)
         boolToogleLabelNotRead.textContent = 'Not Read';
+        boolToogleLabelNotRead.dataset.index = i;
+        boolToogleLabelNotRead.classList.add('label');
+        boolToogleLabelNotRead.addEventListener('click', radioLabelEvent)
         
+        if (library[i].read === true) {
+            boolToogleLabelNotRead.dataset.read = 'false';
+        } else {
+            boolToogleLabelNotRead.dataset.read = 'true';
+        }
         
         readBool.appendChild(boolToogleLabelRead);
         readBool.appendChild(boolToggleInputRead);
         readBool.appendChild(boolToogleLabelNotRead);
         readBool.appendChild(boolToggleInputNotRead);
-        readBool.addEventListener('click', changeBoolEvent)
-
+        
+        
         book.appendChild(readBool);
         
 
