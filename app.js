@@ -31,6 +31,12 @@ const resetLibrary = () => {
     }
 }
 
+const removeEvent = (e) => {
+    library.splice(e.target.dataset.index, 1);
+    resetLibrary();
+    displayLibrary(library);
+} 
+
 const displayLibrary = (library) => {
 
     for (let i = 0; i <= library.length -1; i++) {
@@ -39,14 +45,32 @@ const displayLibrary = (library) => {
         book.classList.add('books');
         book.dataset.index = i;
 
-        libraryElement.appendChild(book);
+        // Create book info div
+        const bookInfoText = document.createElement('div');
+        bookInfoText.classList.add('book-info');
+        let bookTitle = bookInfoText.appendChild(document.createElement('h2'));
+        let bookAuthor = bookInfoText.appendChild(document.createElement('p'));
+        let bookInfo = bookInfoText.appendChild(document.createElement('p'));
+        
+        // create remove btn div
+        const removeBtnDiv = document.createElement('div');
+        removeBtnDiv.classList.add('btn-remove');
+        const removeBtn = document.createElement('button');
+        removeBtn.setAttribute('class', 'remove');
+        removeBtn.dataset.index = i;
+        removeBtn.textContent = 'Remove';
+        removeBtnDiv.appendChild(removeBtn)
+        book.appendChild(removeBtnDiv);
+        removeBtn.addEventListener('click', removeEvent)
         // add book info
-        let bookTitle = book.appendChild(document.createElement('h2'));
-        let bookAuthor = book.appendChild(document.createElement('p'));
-        let bookInfo = book.appendChild(document.createElement('p'));
         bookTitle.textContent = library[i].title;
         bookAuthor.textContent = library[i].author;
         bookInfo.textContent = library[i].bookInfo();
+        
+        book.appendChild(bookInfoText)
+        libraryElement.appendChild(book);
+        
+        
     }
 
 }
@@ -119,3 +143,4 @@ addBook('The Hobbit', 'J. R. R. Tolkien', 310)
 addBook('The Lord of the Rings', 'J. R. R. Tolkien', 1178)
 
 document.body.onload = displayLibrary(library);
+
