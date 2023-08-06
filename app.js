@@ -37,6 +37,24 @@ const removeEvent = (e) => {
     displayLibrary(library);
 } 
 
+const changeBoolEvent = (e) => {
+    
+    if (e.target.checked === true) {
+        let index = e.target.dataset.index
+        let bookAtIndex = library[index];
+        if (bookAtIndex.read === true) {
+            bookAtIndex.read = false
+        } else {
+            bookAtIndex.read = true
+        }
+    }
+
+
+    resetLibrary();
+    displayLibrary(library);
+
+}
+
 const displayLibrary = (library) => {
 
     for (let i = 0; i <= library.length -1; i++) {
@@ -55,13 +73,59 @@ const displayLibrary = (library) => {
         // create remove btn div
         const removeBtnDiv = document.createElement('div');
         removeBtnDiv.classList.add('btn-remove');
+
         const removeBtn = document.createElement('button');
         removeBtn.setAttribute('class', 'remove');
         removeBtn.dataset.index = i;
         removeBtn.textContent = 'Remove';
         removeBtnDiv.appendChild(removeBtn)
+        removeBtn.addEventListener('click', removeEvent);
+
         book.appendChild(removeBtnDiv);
-        removeBtn.addEventListener('click', removeEvent)
+        
+
+        //Create read/not read Toggle
+        const readBool = document.createElement('div');
+        readBool.classList.add('read-bool')
+
+        const boolToggleInputRead = document.createElement('input');
+        boolToggleInputRead.setAttribute('type', 'radio');
+        boolToggleInputRead.setAttribute('name', 'read-' + i);
+        boolToggleInputRead.setAttribute('id', 'update-read-' + i);
+        boolToggleInputRead.dataset.index = i;
+
+        const boolToggleInputNotRead = document.createElement('input');
+        boolToggleInputNotRead.setAttribute('type', 'radio');
+        boolToggleInputNotRead.setAttribute('name', 'read-'+ i);
+        boolToggleInputNotRead.setAttribute('id', 'update-not-read-' + i);
+        boolToggleInputNotRead.dataset.index = i;
+
+        if (library[i].read === true) {
+            boolToggleInputRead.checked = true;
+            boolToggleInputNotRead.checked = false;
+        } else {
+            boolToggleInputRead.checked = false;
+            boolToggleInputNotRead.checked = true;
+        }
+
+        const boolToogleLabelRead = document.createElement('label');
+        boolToogleLabelRead.setAttribute('for', 'update-read-' + i)
+        boolToogleLabelRead.textContent = 'Read';
+
+        const boolToogleLabelNotRead = document.createElement('label');
+        boolToogleLabelNotRead.setAttribute('for', 'update-not-read-' + i)
+        boolToogleLabelNotRead.textContent = 'Not Read';
+        
+        
+        readBool.appendChild(boolToogleLabelRead);
+        readBool.appendChild(boolToggleInputRead);
+        readBool.appendChild(boolToogleLabelNotRead);
+        readBool.appendChild(boolToggleInputNotRead);
+        readBool.addEventListener('click', changeBoolEvent)
+
+        book.appendChild(readBool);
+        
+
         // add book info
         bookTitle.textContent = library[i].title;
         bookAuthor.textContent = library[i].author;
@@ -139,7 +203,7 @@ const submitBook = (e) => {
 addBookBtn.addEventListener('click', formPopUp);
 submit.addEventListener('click', submitBook);
 
-addBook('The Hobbit', 'J. R. R. Tolkien', 310)
+addBook('The Hobbit', 'J. R. R. Tolkien', 310, true)
 addBook('The Lord of the Rings', 'J. R. R. Tolkien', 1178)
 
 document.body.onload = displayLibrary(library);
